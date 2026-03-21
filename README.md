@@ -1,34 +1,34 @@
 # Kalfa OS
 
-Claude Code icin Turkce profesyonel isletim sistemi. Hafiza, uzman agent'lar, otomatik guvenlik kontrolleri ve 989 hazir skill ile Claude Code'u uretim kalitesinde bir is ortağina donusturur.
+Claude Code için Türkçe profesyonel işletim sistemi. Hafıza, uzman agent'lar, otomatik güvenlik kontrolleri ve 989 hazır skill ile Claude Code'u üretim kalitesinde bir iş ortağına dönüştürür.
 
-## Ne Icerir
+## Ne İçerir
 
-| Bilesen | Sayi | Aciklama |
+| Bileşen | Sayı | Açıklama |
 |---------|------|----------|
-| **Skill'ler** | 989 | 16 kategoride yapilandirilmis operasyonel prosedurler |
-| **Agent'lar** | 9 | Kalici hafizaya sahip uzman alt-agent'lar |
-| **Komutlar** | 21 | Is akisi rituelleri ve araclar |
-| **Hook'lar** | 9 | Deterministik guvenlik kontrolleri |
-| **Hafiza** | 6 katman | Oturumlar arasi baglam koruma |
+| **Skill'ler** | 989 | 16 kategoride yapılandırılmış operasyonel prosedürler |
+| **Agent'lar** | 9 | Kalıcı hafızaya sahip uzman alt-agent'lar |
+| **Komutlar** | 21 | İş akışı ritüelleri ve araçlar |
+| **Hook'lar** | 9 | Deterministik güvenlik kontrolleri |
+| **Hafıza** | 6 katman | Oturumlar arası bağlam koruma |
 
-## Hizli Baslangic
+## Hızlı Başlangıç
 
-### 1. On Gereksinimler
+### 1. Ön Gereksinimler
 
-- [Claude Code](https://claude.ai) kurulu ve ucretli Anthropic plani aktif
+- [Claude Code](https://claude.ai) kurulu ve ücretli Anthropic planı aktif
 - `jq` kurulu (`brew install jq` / `sudo apt-get install jq`)
 
 ### 2. Kurulum
 
 ```bash
-# Repo'yu bilgisayarina indir
+# Repo'yu bilgisayarına indir
 git clone https://github.com/komunite/kalfa-os.git
 
-# Kendi projenin klasorune gir
+# Kendi projenin klasörüne gir
 cd /Users/seninkullanicin/projeler/benim-projem
 
-# Kalfa OS dosyalarini buraya kopyala
+# Kalfa OS dosyalarını buraya kopyala
 cp -r ~/kalfa-os/.claude .
 cp ~/kalfa-os/CLAUDE.md .
 cp ~/kalfa-os/SETUP.md .
@@ -37,112 +37,112 @@ cp ~/kalfa-os/"Task Board.md" .
 cp -r ~/kalfa-os/"Daily Notes" .
 ```
 
-### 3. Baslatma
+### 3. Başlatma
 
 ```bash
 claude
 ```
 
-Claude Code acildiktan sonra:
+Claude Code açıldıktan sonra:
 
 ```
 /start
 ```
 
-Detayli kurulum icin `SETUP.md` dosyasina bakin.
+Detaylı kurulum için `SETUP.md` dosyasına bakın.
 
 ## Sistem Mimarisi
 
 ### 9 Uzman Agent
 
-| Agent | Gorevi |
+| Agent | Görevi |
 |-------|--------|
-| **Denetci** | Kalite kapisi. Isleri inceler, bilgiyi terfi ettirir |
-| **Cozumleyici** | Tikandığinda kok neden analizi yapar |
-| **Hata Tercumani** | Anlasilmaz hatalari cozume donusturur |
-| **Lastik Ordek** | Sokratik sorgulama ile gercek problemi buldurur |
-| **PR Yazari** | Diff'lerden PR aciklamasi, commit mesaji yazar |
-| **Kapsam Bekcisi** | Konu sapmasini yakalar |
-| **Borc Takipcisi** | Teknik borcu izler ve onceliklendirir |
-| **Kesif Rehberi** | Yeni codebase'leri hizlica ogrenir |
-| **Arkeolog** | Kodun neden var oldugunu ortaya cikarir |
+| **Denetçi** | Kalite kapısı. İşleri inceler, bilgiyi terfi ettirir |
+| **Çözümleyici** | Tıkandığında kök neden analizi yapar |
+| **Hata Tercümanı** | Anlaşılmaz hataları çözüme dönüştürür |
+| **Lastik Ördek** | Sokratik sorgulama ile gerçek problemi buldurur |
+| **PR Yazarı** | Diff'lerden PR açıklaması, commit mesajı yazar |
+| **Kapsam Bekçisi** | Konu sapmasını yakalar |
+| **Borç Takipçisi** | Teknik borcu izler ve önceliklendirir |
+| **Keşif Rehberi** | Yeni codebase'leri hızlıca öğrenir |
+| **Arkeolog** | Kodun neden var olduğunu ortaya çıkarır |
 
 ### 21 Komut
 
 | Komut | Ne Zaman |
 |-------|----------|
-| `/start` | Gun basinda |
-| `/sync` | Gun ortasinda baglam tazeleme |
-| `/wrap-up` | Gun sonunda |
-| `/clear` | Gorevler arasi geciste |
-| `/audit` | Onemli is bittiginde |
+| `/start` | Gün başında |
+| `/sync` | Gün ortasında bağlam tazeleme |
+| `/wrap-up` | Gün sonunda |
+| `/clear` | Görevler arası geçişte |
+| `/audit` | Önemli iş bittiğinde |
 | `/review` | Kod incelemesi |
-| `/unstick` | Tikandığinda |
-| `/onboard` | Yeni codebase tanimak icin |
+| `/unstick` | Tıkandığında |
+| `/onboard` | Yeni codebase tanımak için |
 | `/retro` | Sprint retrospektifi |
-| `/system-audit` | Altyapi denetimi |
+| `/system-audit` | Altyapı denetimi |
 
-Tam liste icin `.claude/command-index.md` dosyasina bakin.
+Tam liste için `.claude/command-index.md` dosyasına bakın.
 
 ### 16 Skill Kategorisi (989 Skill)
 
-Yapay Zeka ve Otomasyon, Icerik, Danismanlik, Musteri Basarisi, Tasarim, Yazilim Gelistirme, E-ticaret, E-posta Pazarlama, Finans, Pazarlama, Urun Yonetimi, Kisisel Verimlilik, Satis, SEO, Sosyal Medya, Girisimcilik.
+Yapay Zeka ve Otomasyon, İçerik, Danışmanlık, Müşteri Başarısı, Tasarım, Yazılım Geliştirme, E-ticaret, E-posta Pazarlama, Finans, Pazarlama, Ürün Yönetimi, Kişisel Verimlilik, Satış, SEO, Sosyal Medya, Girişimcilik.
 
-Detaylar icin `.claude/skills/INDEX.md` dosyasina bakin.
+Detaylar için `.claude/skills/INDEX.md` dosyasına bakın.
 
-### 6 Katmanli Hafiza
+### 6 Katmanlı Hafıza
 
-1. `memory.md` — Aktif oturum baglami
-2. Agent hafizasi — Agent basina kalici bilgi
-3. Bilgi tabani — Sistem geneli ogrenilmis kurallar
-4. Bilgi adayliklari — Aday ogrenmeler hatti
-5. MCP bilgi grafi — Yapilandirilmis varliklar
-6. Gunluk notlar — Kronolojik oturum gecmisi
+1. `memory.md` — Aktif oturum bağlamı
+2. Agent hafızası — Agent başına kalıcı bilgi
+3. Bilgi tabanı — Sistem geneli öğrenilmiş kurallar
+4. Bilgi adaylıkları — Aday öğrenmeler hattı
+5. MCP bilgi grafi — Yapılandırılmış varlıklar
+6. Günlük notlar — Kronolojik oturum geçmişi
 
-### 9 Guvenlik Hook'u
+### 9 Güvenlik Hook'u
 
-- Tehlikeli shell komutlarini engeller
-- Dosyalari uzerine yazmadan once yedekler
-- Eksik icerigi yakalar
-- Tum degisiklikleri loglar
+- Tehlikeli shell komutlarını engeller
+- Dosyaları üzerine yazmadan önce yedekler
+- Eksik içeriği yakalar
+- Tüm değişiklikleri loglar
 - Oturum durumunu otomatik korur
 
-## Gunluk Is Akisi
+## Günlük İş Akışı
 
 ```
-Sabah:         /start → calis → /sync (gorev degistirirken)
-Ogleden sonra: calis → /clear (baglam agirlaşirsa) → calis
-Aksam:         /wrap-up
+Sabah:         /start → çalış → /sync (görev değiştirirken)
+Öğleden sonra: çalış → /clear (bağlam ağırlaşırsa) → çalış
+Akşam:         /wrap-up
 ```
 
-## Dosya Yapisi
+## Dosya Yapısı
 
 ```
 projeniz/
 ├── .claude/
-│   ├── agents/          # 9 uzman agent tanimi
-│   ├── commands/        # 21 komut dosyasi
-│   ├── hooks/           # 9 guvenlik hook'u
+│   ├── agents/          # 9 uzman agent tanımı
+│   ├── commands/        # 21 komut dosyası
+│   ├── hooks/           # 9 güvenlik hook'u
 │   ├── skills/          # 989 skill (16 kategori)
-│   ├── agent-memory/    # Agent basina kalici hafiza
-│   ├── logs/            # Denetim izi ve olay kaydi
+│   ├── agent-memory/    # Agent başına kalıcı hafıza
+│   ├── logs/            # Denetim izi ve olay kaydı
 │   ├── backups/         # Otomatik yedekler
-│   ├── memory.md        # Aktif oturum baglami
-│   ├── knowledge-base.md    # Ogrenilmis kurallar
+│   ├── memory.md        # Aktif oturum bağlamı
+│   ├── knowledge-base.md    # Öğrenilmiş kurallar
 │   ├── command-index.md     # Komut katalogu
-│   └── settings.json        # Hook yapilandirmasi
-├── CLAUDE.md            # Ana sistem talimatlari
+│   └── settings.json        # Hook yapılandırması
+├── CLAUDE.md            # Ana sistem talimatları
 ├── SETUP.md             # Kurulum rehberi
-├── Task Board.md        # Gorev panosu
-├── Scratchpad.md        # Hizli not defteri
-└── Daily Notes/         # Gunluk notlar
+├── Task Board.md        # Görev panosu
+├── Scratchpad.md        # Hızlı not defteri
+└── Daily Notes/         # Günlük notlar
 ```
 
-## Katkida Bulunma
+## Katkıda Bulunma
 
 1. Repo'yu fork'la
-2. Degisikliklerini yap
-3. PR ac
+2. Değişikliklerini yap
+3. PR aç
 
 ## Lisans
 
