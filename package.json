@@ -40,7 +40,12 @@
 	"engines": {
 		"node": ">=18"
 	},
+	"dependencies": {
+		"express": "^4.21.0"
+	},
 	"scripts": {
+		"kanban": "node kanban/server.js",
+		"kanban:dev": "node --watch kanban/server.js",
 		"cli": "node ./bin/kalfa-os.js",
 		"cli:help": "node ./bin/kalfa-os.js --help",
 		"pack:preview": "npm pack --dry-run",

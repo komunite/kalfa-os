@@ -39,6 +39,12 @@
             "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/log-changes.sh\"",
             "async": true,
             "statusMessage": "Değişiklik kaydediliyor..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/notify-kanban.sh\"",
+            "async": true,
+            "statusMessage": "Kanban güncelleniyor..."
           }
         ]
       }
@@ -78,6 +84,12 @@
             "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/session-reset.sh\"",
             "timeout": 3,
             "statusMessage": "Oturum durumu sıfırlanıyor..."
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/check-inbox.sh\"",
+            "timeout": 3,
+            "statusMessage": "Kanban görev kutusu kontrol ediliyor..."
           }
         ]
       },
