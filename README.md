@@ -10,9 +10,9 @@ Proje durumu: aktif olarak geliştiriliyor
 
 | Bileşen | Sayı | Açıklama |
 |---------|------|----------|
-| **Skill'ler** | 989 | 16 kategoride yapılandırılmış operasyonel prosedürler |
-| **Agent'lar** | 9 | Kalıcı hafızaya sahip uzman alt-agent'lar |
-| **Komutlar** | 21 | İş akışı ritüelleri ve araçlar |
+| **Skill'ler** | 994 | 16 kategoride yapılandırılmış operasyonel prosedürler |
+| **Agent'lar** | 10 | Kalıcı hafızaya sahip uzman alt-agent'lar |
+| **Komutlar** | 22 | İş akışı ritüelleri ve araçlar |
 | **Hook'lar** | 9 | Deterministik güvenlik kontrolleri |
 | **Hafıza** | 6 katman | Oturumlar arası bağlam koruma |
 
@@ -58,7 +58,9 @@ Farklı bir dizine kurmak için:
 npx @komunite/kalfa-os init --target /proje/dizini
 ```
 
-> Not: `--target` ile verdiğiniz dizin mevcut olmalıdır.
+<!--lint disable no-undefined-references-->
+> [!NOTE]
+> `--target` ile verdiğiniz dizin mevcut olmalıdır.
 
 Mevcut dosyaların üzerine yazmak için:
 
@@ -66,11 +68,18 @@ Mevcut dosyaların üzerine yazmak için:
 npx @komunite/kalfa-os init --force
 ```
 
+> [!WARNING]
+> `--force` mevcut dosyaların üzerine yazar.
+
 Yalnızca ne yapılacağını görmek için:
 
 ```bash
 npx @komunite/kalfa-os init --dry-run
 ```
+
+> [!TIP]
+> `--dry-run` hiçbir dosyaya yazmaz, yalnızca yapılacak işlemleri gösterir.
+<!--lint enable no-undefined-references-->
 
 ### 2. Global kurulum ile kullanım
 
@@ -92,7 +101,7 @@ kalfa-os --help
 1. Proje kök dizininde Claude Code'u açın.
    1. `.claude/` klasörünün mevcut olduğunu doğrulayın.
    2. `CLAUDE.md` dosyasının bulunduğunu kontrol edin.
-   3. `TaskBoard.md` dosyasının erişilebilir olduğundan emin olun.
+   3. `.claude/workspace/TaskBoard.md` dosyasının erişilebilir olduğundan emin olun.
 2. `/start` komutunu çalıştırın.
 3. Günün önceliklerini netleştirip ilk işe başlayın.
 
@@ -178,7 +187,7 @@ Kurulum:
 Yapılandırma:
 
 1. `.claude/settings.json` dosyasını proje ihtiyaçlarınıza göre düzenleyin.
-2. `memory.md`, `knowledge-base.md` ve `TaskBoard.md` dosyalarını proje bağlamıyla güncelleyin.
+2. `memory.md`, `knowledge-base.md` ve `.claude/workspace/TaskBoard.md` dosyalarını proje bağlamıyla güncelleyin.
 
 #### Build ve test
 
@@ -196,6 +205,8 @@ Testleri çalıştırma:
 2. CLI testlerini çalıştırın.
    1. `npm test`
    2. Geliştirme sırasında izleme modunda çalıştırmak için `npm run test:watch`
+
+Katkı hazırlarken, mevcut repo durumunda doğrulanmış asgari yerel kontroller `npm run lint:md` ve `npm test` komutlarıdır.
 
 #### Test kapsamı
 
@@ -217,11 +228,12 @@ Mevcut test seti `tests/` dizinindedir ve şunları doğrular:
 2. npm tarafında Trusted Publisher tanımlayın.
    1. npm paket ayarlarında `@komunite/kalfa-os` için GitHub repo `komunite/kalfa-os` bağlayın.
    2. Workflow olarak `.github/workflows/npm-publish.yml` seçin.
-3. Sürümü artırın ve etiketi gönderin.
+3. Mevcut repo durumunda npm publish workflow'u manuel `workflow_dispatch` ile sınırlıdır ve job varsayılan olarak `if: false` korumasıyla devre dışıdır; yayın öncesinde `.github/workflows/npm-publish.yml` dosyasını gözden geçirip etkinleştirin.
+4. Sürümü artırın ve etiketi gönderin.
    1. `npm version patch` (veya `minor` / `major`)
    2. `git push --follow-tags`
-4. GitHub üzerinde Release oluşturun.
-   1. Workflow otomatik çalışır ve `npm publish --provenance --access public` ile yayın yapar.
+5. Gerekirse etkinleştirdikten sonra workflow'u GitHub arayüzünden elle çalıştırın.
+   1. GitHub üzerinde Release oluşturmak tek başına publish başlatmaz.
 
 #### Hata ayıklama
 
@@ -247,7 +259,8 @@ Katkıdan önce topluluk beklentileri için [Code of Conduct](./CODE_OF_CONDUCT.
    2. Değişiklik kapsamını dar tutun.
 2. Değişiklik yapın ve doğrulayın.
    1. `npm run lint:md` çalıştırın.
-   2. Açıklayıcı bir pull request açın.
+   2. `npm test` çalıştırın.
+   3. Açıklayıcı bir pull request açın.
 
 ## Emeği geçenler
 

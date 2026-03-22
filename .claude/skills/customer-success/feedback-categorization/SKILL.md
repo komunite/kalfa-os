@@ -26,7 +26,7 @@ Başlamadan önce:
 - Mevcut proje bağlamı ve öncelikleri için `memory.md`'yi oku
 - İlgili öğrenilmiş kurallar veya kısıtlamalar için `knowledge-base.md`'yi kontrol et
 - Projedeki mevcut ilgili belgeleri gözden geçir
-- Bu çıktıyla ilgili `TaskBoard.md`'deki aktif görevleri not et
+- Bu çıktıyla ilgili `.claude/workspace/TaskBoard.md`'deki aktif görevleri not et
 
 ## Süreç
 
@@ -128,5 +128,5 @@ Başlamadan önce:
 
 - Bu çıktı proje bağlamını veya öncelikleri değiştiriyorsa `memory.md`'yi güncelle
 - Yeniden kullanılabilir öğrenimleri `knowledge-nominations.md`'ye ekle
-- Takip eylemleri belirlendiyse `TaskBoard.md`'ye ekle
+- Takip eylemleri belirlendiyse `.claude/workspace/TaskBoard.md`'ye ekle
 - Ek çalışma gerekiyorsa ilgili becerileri öner

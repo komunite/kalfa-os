@@ -16,8 +16,8 @@ Gün ortası bağlam yenilemesi. Yakalanan notları işle, hafızayı güncelle,
 
 Eşzamanlı oku:
 - `.claude/memory.md`
-- `DailyNotes/MMDDYY.md` (bugünün tarihi)
-- `Scratchpad.md`
+- `.claude/workspace/DailyNotes/MMDDYY.md` (bugünün tarihi)
+- `.claude/workspace/Scratchpad.md`
 
 ### Adım 2: Not Defteri'ni işle
 
@@ -32,7 +32,7 @@ Not Defteri'ndeki her kalem için:
 
 ### Adım 3: Görev panosunu tara
 
-`TaskBoard.md` oku:
+`.claude/workspace/TaskBoard.md` oku:
 - Tamamlanan görevleri Bugün → Tamamlanan'a taşı
 - Engellenen görevleri işaretle
 - Öncelikler değişti mi kontrol et

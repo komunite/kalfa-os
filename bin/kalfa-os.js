@@ -6,10 +6,6 @@ const path = require("node:path");
 const TEMPLATE_ITEMS = [
 	".claude",
 	"CLAUDE.md",
-	"SETUP.md",
-	"Scratchpad.md",
-	"TaskBoard.md",
-	"DailyNotes",
 ];
 
 function printHelp() {

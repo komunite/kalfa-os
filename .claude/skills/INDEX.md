@@ -1,6 +1,6 @@
 # Skill Kütüphanesi
 
-> 16 kategoride 989 profesyonel skill.
+> 16 kategoride 994 profesyonel skill.
 > Her skill yapılandırılmış bir operasyonel prosedürdür — prompt şablonu değil.
 
 ## Skill'ler Nasıl Çalışır
@@ -17,7 +17,7 @@ Her skill:
 
 | Kategori | Skill | Açıklama |
 |----------|-------|----------|
-| [Yapay Zeka ve Otomasyon](./ai-automation/) | 54 | Yapay zeka uygulaması, prompt mühendisliği, iş akışı otomasyonu ve yapay zeka stratejisi |
+| [Yapay Zeka ve Otomasyon](./ai-automation/) | 59 | Yapay zeka uygulaması, prompt mühendisliği, iş akışı otomasyonu ve yapay zeka stratejisi |
 | [İçerik ve Metin Yazarlığı](./content/) | 88 | Tüm formatlarda yazılı içerik üretimi — blog yazıları, teknik raporlar, açılış sayfaları, senaryolar ve dahası |
 | [Danışmanlık ve Strateji](./consulting/) | 54 | Strateji çerçeveleri, pazar analizi, müşteri ilişkileri ve danışmanlık hizmetleri |
 | [Müşteri Başarısı ve Destek](./customer-success/) | 48 | Müşteri oryantasyonu, elde tutma, destek operasyonları ve müşteri deneyimi |

@@ -27,14 +27,14 @@ Argüman yoksa → varsayılan `hafta`
 
 Eşzamanlı oku:
 - `.claude/memory.md`
-- `TaskBoard.md`
+- `.claude/workspace/TaskBoard.md`
 - `.claude/agent-memory/coach/MEMORY.md` (koçun önceki gözlemleri)
 
 ### Adım 3: Günlük notları tara
 
 ```bash
 # Son 7 günün günlük notlarını bul
-find DailyNotes/ -name "*.md" -mtime -7 -type f | sort
+find .claude/workspace/DailyNotes/ -name "*.md" -mtime -7 -type f | sort
 ```
 
 Bulunan günlük notları oku. Eğer günlük not yoksa veya az varsa, bunu bir bulgu olarak not et ("Günlük not tutulmuyor — veri eksik, koçluk sınırlı olacak").

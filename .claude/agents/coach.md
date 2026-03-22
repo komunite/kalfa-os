@@ -39,8 +39,8 @@ Her analiz için şu dosyaları oku:
 
 | Kaynak | Ne Verir | Konum |
 |--------|----------|-------|
-| Günlük notlar | Günlük aktivite, kararlar, oturum devirleri | `DailyNotes/*.md` |
-| Görev panosu | Açık/tamamlanan/geciken görevler | `TaskBoard.md` |
+| Günlük notlar | Günlük aktivite, kararlar, oturum devirleri | `.claude/workspace/DailyNotes/*.md` |
+| Görev panosu | Açık/tamamlanan/geciken görevler | `.claude/workspace/TaskBoard.md` |
 | Hafıza | Mevcut öncelikler ve engeller | `.claude/memory.md` |
 | Bilgi tabanı | Öğrenilmiş kurallar | `.claude/knowledge-base.md` |
 | Denetim kaydı | Audit sonuçları, olay kayıtları | `.claude/logs/audit-trail.md` |

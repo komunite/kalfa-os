@@ -61,7 +61,7 @@ fi
 mkdir -p "$CLAUDE_PROJECT_DIR/.claude/agent-memory" \
          "$CLAUDE_PROJECT_DIR/.claude/backups" \
          "$CLAUDE_PROJECT_DIR/.claude/skills" \
-         "$CLAUDE_PROJECT_DIR/DailyNotes" 2>/dev/null
+         "$CLAUDE_PROJECT_DIR/.claude/workspace/DailyNotes" 2>/dev/null
 
 # ═══════════════════════════════════════════════════════
 # 5. Prune old log files (keep last 30 days)

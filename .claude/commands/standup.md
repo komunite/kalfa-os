@@ -30,7 +30,7 @@ git log --after="yesterday 00:00" --before="today 00:00" --oneline --no-merges
 Dün commit yoksa, son 2 günü dene.
 
 **Görev Panosu:**
-`TaskBoard.md` oku:
+`.claude/workspace/TaskBoard.md` oku:
 - Son zamanlarda tamamlanan olarak işaretlenen kalemler
 - Şu anda devam eden kalemler
 - Engellenen olarak işaretlenen kalemler

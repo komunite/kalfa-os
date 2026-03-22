@@ -62,10 +62,9 @@ test("init copies starter files to target directory", async () => {
 	const expected = [
 		".claude",
 		"CLAUDE.md",
-		"SETUP.md",
-		"Scratchpad.md",
-		"TaskBoard.md",
-		"DailyNotes",
+		".claude/workspace/Scratchpad.md",
+		".claude/workspace/TaskBoard.md",
+		".claude/workspace/DailyNotes",
 	];
 
 	for (const item of expected) {

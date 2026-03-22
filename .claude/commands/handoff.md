@@ -19,7 +19,7 @@ allowed-tools:
 Oku:
 - `.claude/memory.md` — mevcut durum
 - Son günlük not — bugünün çalışma günlüğü
-- `TaskBoard.md` — aktif görevler ve öncelikler
+- `.claude/workspace/TaskBoard.md` — aktif görevler ve öncelikler
 - `git status` ve `git log --oneline -10` — son değişiklikler
 
 ### Adım 2: Yapılanları belirle

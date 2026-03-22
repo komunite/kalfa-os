@@ -303,5 +303,5 @@ openclaw gateway reload
 
 - Agent yapılandırması ve erişim bilgileri için `memory.md`'yi güncelle
 - Deployment sırasında öğrenilen kuralları `knowledge-nominations.md`'ye ekle
-- Takip eylemleri (monitoring, yedekleme) için `TaskBoard.md`'ye görev ekle
+- Takip eylemleri (monitoring, yedekleme) için `.claude/workspace/TaskBoard.md`'ye görev ekle
 - Çoklu agent gerekiyorsa `multi-agent-workflow` skill'ini öner

@@ -24,7 +24,7 @@ date +"%m%d%y %H:%M" && rm -f ".claude/logs/.quality-gate-active" ".claude/logs/
 
 ### Adım 1: Durumu oku (paralel, acil durumda atla)
 
-Eşzamanlı oku: `.claude/memory.md` + `DailyNotes/MMDDYY.md`
+Eşzamanlı oku: `.claude/memory.md` + `.claude/workspace/DailyNotes/MMDDYY.md`
 
 ### Adım 2: Oturumu özetle (bağlam içi hafızadan)
 

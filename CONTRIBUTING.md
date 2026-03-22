@@ -34,10 +34,11 @@ PR açıklamasında şunları belirtin:
 
 ## Yerel Doğrulama
 
-PR açmadan önce en azından şu kontrolleri çalıştırın:
+PR açmadan önce, mevcut repo durumunda doğrulanmış asgari kontroller şunlardır:
 
 1. `npm install`
 2. `npm run lint:md`
+3. `npm test`
 
 ## İnceleme ve Birleştirme Süreci
 

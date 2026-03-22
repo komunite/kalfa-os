@@ -113,7 +113,7 @@ Bunlar çalışma bağlamındır. Bilgi Tabanı girdileri zorunlu kısıtlamalar
 
 ### Adım 3: Günlük not oluştur
 
-`DailyNotes/GGAAYY.md` oluştur (yoksa):
+`.claude/workspace/DailyNotes/GGAAYY.md` oluştur (yoksa):
 
 ```markdown
 # GGAAYY - Günlük Çalışma Kaydı
@@ -133,7 +133,7 @@ Bunlar çalışma bağlamındır. Bilgi Tabanı girdileri zorunlu kısıtlamalar
 
 ### Adım 4: Görev panosunu aç
 
-`TaskBoard.md` oku. Şunları tara:
+`.claude/workspace/TaskBoard.md` oku. Şunları tara:
 - Geciken kalemler (önceki günlerden hâlâ açık olan)
 - Bugünün öncelikleri
 - Engellenen kalemler

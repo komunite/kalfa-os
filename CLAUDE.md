@@ -18,9 +18,9 @@ Herhangi bir işlem yapmadan önce daima `.claude/memory.md` dosyasını oku.
 
 * Hafıza: `.claude/memory.md` (mevcut bağlam için bunu oku)
 * Bilgi Tabanı: `.claude/knowledge-base.md` (sistem geneli öğrenilmiş kurallar — her görevden önce oku)
-* Görev Panosu: `TaskBoard.md`
-* Not Defteri: `Scratchpad.md` (hızlı not, /sync sırasında işlenir, /wrap-up ile temizlenir)
-* Günlük Notlar: `DailyNotes/` (/start ile otomatik oluşturulur)
+* Görev Panosu: `.claude/workspace/TaskBoard.md`
+* Not Defteri: `.claude/workspace/Scratchpad.md` (hızlı not, /sync sırasında işlenir, /wrap-up ile temizlenir)
+* Günlük Notlar: `.claude/workspace/DailyNotes/` (/start ile otomatik oluşturulur)
 * Bilgi Adaylıkları: `.claude/knowledge-nominations.md` (aday öğrenmeler — Denetçi inceler)
 * Komut Dizini: `.claude/command-index.md` (tüm komutlar, tetikleyicileri ve araçları)
 
@@ -66,7 +66,7 @@ Tüm agent'lar sistem komutlarını çalıştırabilir. Tam katalog için `.clau
 | Şu an ne yapıyorum?             | `memory.md` → Şimdi                        | Görev Panosu → Bugün              |
 | Bir prosedür nasıl yapılır      | `.claude/commands/` veya `.claude/skills/` | CLAUDE.md                         |
 | Bir kural veya öğrenilmiş bilgi | `knowledge-base.md`                        | Agent hafızası                    |
-| Belirli bir günde ne oldu       | `DailyNotes/GGAAYY.md`                    | Denetim izi                       |
+| Belirli bir günde ne oldu       | `.claude/workspace/DailyNotes/GGAAYY.md`                    | Denetim izi                       |
 | Daha önce ne yanlış gitti       | `knowledge-base.md` → Kesin Kurallar       | Agent hafızası → Bilinen Kalıplar |
 | Hangi komutlar var              | `.claude/command-index.md`                 | `.claude/commands/{isim}.md`      |
 

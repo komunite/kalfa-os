@@ -17,9 +17,9 @@ Gün sonu ritüeli. Bilgiyi dışsallaştır, temizle, yarına hazırlan.
 
 Eşzamanlı oku:
 - `.claude/memory.md`
-- `DailyNotes/MMDDYY.md` (bugün)
-- `Scratchpad.md`
-- `TaskBoard.md`
+- `.claude/workspace/DailyNotes/MMDDYY.md` (bugün)
+- `.claude/workspace/Scratchpad.md`
+- `.claude/workspace/TaskBoard.md`
 
 ### Adım 2: Kalan Not Defteri kalemlerini işle
 
@@ -35,7 +35,7 @@ Eşzamanlı oku:
 
 ### Adım 4: Tamamlanan görevleri taşı
 
-`TaskBoard.md` içinde:
+`.claude/workspace/TaskBoard.md` içinde:
 - Tüm tamamlanan görevleri Bugün → Tamamlanan'a taşı
 - Cuma ise Tamamlanan listesini temizle
 - Tamamlanmayan Bugün kalemlerini nedenini belirten bir notla Bu Hafta veya Bekleyen İşler'e taşı
@@ -55,7 +55,7 @@ Format: `- [AAGGYY] /wrap-up: [öğrenim] | Kanıt: [kaynak]`
 Bugünün çalışmasını incelemek için Denetçi agent'ını başlat:
 
 ```
-Agent(auditor): DailyNotes/MMDDYY.md'deki bugünün çalışmasını incele. Kontrol et:
+Agent(auditor): .claude/workspace/DailyNotes/MMDDYY.md'deki bugünün çalışmasını incele. Kontrol et:
 1. Tüm görevler tamamlandı mı veya düzgün ertelendi mi?
 2. Bilgi Tabanı kuralları ihlal edildi mi?
 3. İncelenecek bekleyen adaylıklar var mı?
@@ -73,7 +73,7 @@ Onları Görev Panosu → Bugün'e ekle.
 
 ### Adım 9: Günlük notu güncelle
 
-`DailyNotes/MMDDYY.md` → Gün Sonu Özeti'ne ekle:
+`.claude/workspace/DailyNotes/MMDDYY.md` → Gün Sonu Özeti'ne ekle:
 - Temel başarılar
 - Alınan kararlar
 - İleriye taşınan açık kalemler
