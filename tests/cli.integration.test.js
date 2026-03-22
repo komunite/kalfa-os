@@ -81,6 +81,57 @@ test("init copies starter files to target directory", async () => {
 	}
 
 	const gitignore = fs.readFileSync(path.join(targetDir, ".gitignore"), "utf8");
+	assert.match(gitignore, /# >>> Kalfa runtime artifacts >>>/);
 	assert.match(gitignore, /^\.claude\/logs\/$/m);
 	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
+	assert.match(gitignore, /# <<< Kalfa runtime artifacts <<</);
+});
+
+test("init appends a managed gitignore block without clobbering existing rules", async () => {
+	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-gitignore-existing-"));
+	const targetGitignore = path.join(targetDir, ".gitignore");
+	fs.writeFileSync(targetGitignore, "node_modules/\n.env\n");
+
+	await runCli(["init", "--target", targetDir]);
+
+	const gitignore = fs.readFileSync(targetGitignore, "utf8");
+	assert.match(gitignore, /^node_modules\/$/m);
+	assert.match(gitignore, /^\.env$/m);
+	assert.match(gitignore, /^\.claude\/logs\/$/m);
+	assert.equal((gitignore.match(/# >>> Kalfa runtime artifacts >>>/g) || []).length, 1);
+});
+
+test("init does not duplicate the managed gitignore block on repeated runs", async () => {
+	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-gitignore-repeat-"));
+
+	await runCli(["init", "--target", targetDir]);
+	await runCli(["init", "--target", targetDir]);
+
+	const gitignore = fs.readFileSync(path.join(targetDir, ".gitignore"), "utf8");
+	assert.equal((gitignore.match(/# >>> Kalfa runtime artifacts >>>/g) || []).length, 1);
+});
+
+test("init --force refreshes only the managed gitignore block", async () => {
+	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-gitignore-force-"));
+	const targetGitignore = path.join(targetDir, ".gitignore");
+	fs.writeFileSync(
+		targetGitignore,
+		[
+			"node_modules/",
+			"# >>> Kalfa runtime artifacts >>>",
+			".claude/logs/",
+			"legacy-rule",
+			"# <<< Kalfa runtime artifacts <<<",
+			"",
+		].join("\n"),
+	);
+
+	await runCli(["init", "--target", targetDir, "--force"]);
+
+	const gitignore = fs.readFileSync(targetGitignore, "utf8");
+	assert.match(gitignore, /^node_modules\/$/m);
+	assert.doesNotMatch(gitignore, /^legacy-rule$/m);
+	assert.match(gitignore, /^\.claude\/logs\/$/m);
+	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
+	assert.equal((gitignore.match(/# >>> Kalfa runtime artifacts >>>/g) || []).length, 1);
 });
