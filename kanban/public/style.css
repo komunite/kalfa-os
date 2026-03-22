@@ -438,7 +438,7 @@ body {
   font-weight: 600;
   line-height: 1.45;
   color: var(--text);
-  word-break: break-word;
+  overflow-wrap: break-word;
   flex: 1;
 }
 
@@ -447,7 +447,7 @@ body {
   font-size: 12px;
   color: var(--text-3);
   line-height: 1.5;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Card: progress */

@@ -1,21 +1,29 @@
 #!/bin/bash
 # SessionStart (user) hook — Kanban board'dan bekleyen görevleri Claude'a enjekte eder.
-# Kanban'dan "Claude'da Başlat" seçildiğinde .claude/kanban-inbox.md oluşur.
-# Bu hook o dosyayı okur, içeriği Claude'un bağlamına yazar ve dosyayı temizler.
+# Kanban'dan "Claude'da Başlat" seçildiğinde .claude/kanban-inbox-<timestamp>-<id>.md oluşur.
+# Bu hook klasördeki tüm inbox dosyalarını işler, içeriği Claude'un bağlamına yazar ve siler.
 
-INBOX="${CLAUDE_PROJECT_DIR}/.claude/kanban-inbox.md"
+INBOX_PATTERN="${CLAUDE_PROJECT_DIR}/.claude/kanban-inbox-*.md"
 
-[ -f "$INBOX" ] || exit 0
+# Eşleşen dosya var mı kontrol et
+shopt -s nullglob
+INBOX_FILES=($INBOX_PATTERN)
+shopt -u nullglob
 
-CONTENT=$(cat "$INBOX")
-rm -f "$INBOX"
+[ ${#INBOX_FILES[@]} -gt 0 ] || exit 0
 
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📬  KANBAN BOARD'DAN YENİ GÖREV GELDİ"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "$CONTENT"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
+for INBOX in "${INBOX_FILES[@]}"; do
+	[ -f "$INBOX" ] || continue
+	CONTENT=$(cat "$INBOX")
+	rm -f "$INBOX"
+
+	echo ""
+	echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	echo "📬  KANBAN BOARD'DAN YENİ GÖREV GELDİ"
+	echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	echo "$CONTENT"
+	echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	echo ""
+done
 
 exit 0

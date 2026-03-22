@@ -15,13 +15,28 @@
 
 const LEGACY_HEADINGS = ["Bugün", "Bu Hafta", "Bekleyen İşler", "Tamamlanan"];
 
-/** Eski formattaki kolonları yeni config kolonlarına map eder */
-const LEGACY_MAP = {
-	Bugün: "todo",
-	"Bu Hafta": "task",
-	"Bekleyen İşler": "task",
-	Tamamlanan: null, // config'deki son kolona (done) gider
-};
+/**
+ * Eski bir legacy başlığı için hedef kolon key'ini döndürür.
+ * Statik LEGACY_MAP'in yerini alır; content/general/software preset'lerine göre
+ * doğru kolonu seçer — sabit key isimleri yerine config'e göre davranır.
+ *
+ * Tamamlanan → isDone bayrağı olan kolon (yoksa son kolon)
+ * Bugün      → ikinci aktif kolon (ilk değil; "bugün yapıyorum" anlamında)
+ * Diğerleri  → ilk aktif (done olmayan) kolon — backlog/idea/task
+ */
+function migrateLegacyColumn(legacyName, config) {
+	const cols = config.columns;
+	const doneCol = cols.find((c) => c.isDone) ?? cols[cols.length - 1];
+	const activeCols = cols.filter((c) => !c.isDone);
+
+	if (legacyName === "Tamamlanan") return doneCol.key;
+	if (legacyName === "Bugün") {
+		// İkinci aktif kolon (todo/writing/in-progress); yoksa ilk aktif
+		return (activeCols[1] ?? activeCols[0] ?? doneCol).key;
+	}
+	// "Bu Hafta" ve "Bekleyen İşler" → ilk aktif kolon (backlog/idea/task)
+	return (activeCols[0] ?? doneCol).key;
+}
 
 /**
  * Eski format olup olmadığını kontrol eder.
@@ -40,24 +55,14 @@ function isMigratable(rawText) {
  */
 function migrateBoard(rawText, config) {
 	const parsed = _parseLegacy(rawText);
-	// "done" key'ini config'in son kolonu olarak belirle
-	const lastColumn = config.columns[config.columns.length - 1];
 	const board = {};
 	for (const col of config.columns) {
 		board[col.key] = [];
 	}
 
 	for (const [legacyKey, tasks] of Object.entries(parsed)) {
-		const targetKey = LEGACY_MAP[legacyKey];
-		if (targetKey === null) {
-			// Tamamlanan → son kolon
-			board[lastColumn.key].push(...tasks);
-		} else if (targetKey && board[targetKey] !== undefined) {
-			board[targetKey].push(...tasks);
-		} else {
-			// Bilinmeyen → ilk kolon (task/backlog)
-			board[config.columns[0].key].push(...tasks);
-		}
+		const targetKey = migrateLegacyColumn(legacyKey, config);
+		board[targetKey].push(...tasks);
 	}
 
 	return serialize({ columns: board }, config);

@@ -9,7 +9,7 @@ const DEFAULT_CONFIGS = {
 		columns: [
 			{ key: "task", label: "Task", color: "#6366f1" },
 			{ key: "todo", label: "Todo", color: "#f59e0b" },
-			{ key: "in-progress", label: "In Progress", color: "#3b82f6" },
+			{ key: "in-progress", label: "In Progress", color: "#3b82f6", triggersStart: true },
 			{ key: "test", label: "Test", color: "#8b5cf6" },
 			{ key: "uat", label: "UAT", color: "#f97316" },
 			{ key: "done", label: "Done", color: "#10b981", isDone: true },
@@ -87,16 +87,20 @@ function loadConfig(projectRoot) {
 
 /**
  * Watches kanban-config.json for changes and calls onChange(newConfig).
- * Returns a cleanup function.
+ * Returns a cleanup function that cancels pending timers and closes the watcher.
  */
 function watchConfig(projectRoot, onChange) {
 	const configPath = path.join(projectRoot, ".claude/kanban-config.json");
 	let debounceTimer = null;
+	let retryTimer = null;
+	let activeWatcher = null;
+	let stopped = false;
 
 	function tryWatch() {
+		if (stopped) return;
 		if (!fs.existsSync(configPath)) {
 			// Retry after 2s in case the file is created later
-			setTimeout(tryWatch, 2000);
+			retryTimer = setTimeout(tryWatch, 2000);
 			return;
 		}
 		const watcher = fs.watch(configPath, () => {
@@ -111,13 +115,25 @@ function watchConfig(projectRoot, onChange) {
 				}
 			}, 150);
 		});
+		activeWatcher = watcher;
 		watcher.on("error", () => {
 			// File may have been deleted/replaced; retry
-			setTimeout(tryWatch, 500);
+			activeWatcher = null;
+			retryTimer = setTimeout(tryWatch, 500);
 		});
 	}
 
 	tryWatch();
+
+	return function cleanup() {
+		stopped = true;
+		clearTimeout(debounceTimer);
+		clearTimeout(retryTimer);
+		if (activeWatcher) {
+			activeWatcher.close();
+			activeWatcher = null;
+		}
+	};
 }
 
 module.exports = { loadConfig, watchConfig, DEFAULT_CONFIGS };

@@ -50,18 +50,45 @@ function showStartModal(taskId, targetColumn) {
   const PRIORITY_CLS = { high: "p-high", medium: "p-medium", low: "p-low" };
 
   const preview = document.getElementById("start-task-preview");
-  preview.innerHTML = `
-    <div class="preview-title">${task.text}</div>
-    <div class="preview-meta">
-      ${task.priority ? `<span class="preview-priority priority-badge ${PRIORITY_CLS[task.priority] || ""}">${PRIORITY_TR[task.priority]}</span>` : ""}
-      ${task.progress > 0 ? `<span style="font-size:11px;color:var(--text-3)">%${task.progress}</span>` : ""}
-    </div>
-    ${task.note ? `<div class="preview-note">${task.note}</div>` : ""}
-    ${task.progress > 0 ? `
-      <div class="preview-progress-track">
-        <div class="preview-progress-fill" style="width:${task.progress}%"></div>
-      </div>` : ""}
-  `;
+  preview.textContent = "";
+
+  const titleEl = document.createElement("div");
+  titleEl.className = "preview-title";
+  titleEl.textContent = task.text;
+  preview.appendChild(titleEl);
+
+  const metaEl = document.createElement("div");
+  metaEl.className = "preview-meta";
+  if (task.priority) {
+    const prioEl = document.createElement("span");
+    prioEl.className = `preview-priority priority-badge ${PRIORITY_CLS[task.priority] || ""}`;
+    prioEl.textContent = PRIORITY_TR[task.priority];
+    metaEl.appendChild(prioEl);
+  }
+  const prog = Number(task.progress);
+  if (prog > 0) {
+    const progText = document.createElement("span");
+    progText.style.cssText = "font-size:11px;color:var(--text-3)";
+    progText.textContent = `%${prog}`;
+    metaEl.appendChild(progText);
+  }
+  preview.appendChild(metaEl);
+
+  if (task.note) {
+    const noteEl = document.createElement("div");
+    noteEl.className = "preview-note";
+    noteEl.textContent = task.note;
+    preview.appendChild(noteEl);
+  }
+  if (prog > 0) {
+    const track = document.createElement("div");
+    track.className = "preview-progress-track";
+    const fill = document.createElement("div");
+    fill.className = "preview-progress-fill";
+    fill.style.width = `${Math.min(100, Math.max(0, prog))}%`;
+    track.appendChild(fill);
+    preview.appendChild(track);
+  }
 
   // Pre-fill skill from task meta
   populateSkillSelects(task.skill || "");
@@ -240,8 +267,8 @@ function buildColumn(col, tasks) {
     const srcTask = findTaskById(taskId);
     if (srcTask && srcTask.columnKey === col.key) return; // same column, no-op
 
-    // "In Progress" kolonuna taşıma → Claude onay popup'ı
-    if (col.key === "in-progress") {
+    // triggersStart bayrağı olan kolona taşıma → Claude onay popup'ı
+    if (col.triggersStart) {
       showStartModal(taskId, col.key);
       return;
     }
@@ -590,12 +617,29 @@ function renderActivity(items) {
     list.innerHTML = '<li class="act-empty">Henüz aktivite yok.</li>';
     return;
   }
-  list.innerHTML = items.map((item) => `
-    <li>
-      <span class="act-ts">${item.timestamp || ""}</span>
-      ${item.tool ? `<span class="act-tool">${item.tool}</span>` : ""}
-      <span class="act-path">${item.filePath || ""}</span>
-    </li>`).join("");
+  list.textContent = "";
+  for (const item of items) {
+    const li = document.createElement("li");
+
+    const ts = document.createElement("span");
+    ts.className = "act-ts";
+    ts.textContent = item.timestamp || "";
+    li.appendChild(ts);
+
+    if (item.tool) {
+      const toolEl = document.createElement("span");
+      toolEl.className = "act-tool";
+      toolEl.textContent = item.tool;
+      li.appendChild(toolEl);
+    }
+
+    const pathEl = document.createElement("span");
+    pathEl.className = "act-path";
+    pathEl.textContent = item.filePath || "";
+    li.appendChild(pathEl);
+
+    list.appendChild(li);
+  }
 }
 
 // ---------------------------------------------------------------------------

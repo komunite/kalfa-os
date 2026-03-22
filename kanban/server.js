@@ -17,7 +17,13 @@ const AUDIT_TRAIL_PATH = path.join(PROJECT_ROOT, ".claude/logs/audit-trail.md");
 const MEMORY_PATH = path.join(PROJECT_ROOT, ".claude/memory.md");
 const DIRTY_FLAG_PATH = path.join(PROJECT_ROOT, ".claude/logs/.kanban-dirty");
 const LOGS_DIR = path.join(PROJECT_ROOT, ".claude/logs");
-const INBOX_PATH = path.join(PROJECT_ROOT, ".claude/kanban-inbox.md");
+const INBOX_DIR = path.join(PROJECT_ROOT, ".claude");
+/** Eşzamanlı "Claude'da Başlat" tıklamalarında üzerine yazma yarışını önlemek için
+ *  her görev için benzersiz inbox dosyası oluşturur. */
+function newInboxPath() {
+	const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+	return path.join(INBOX_DIR, `kanban-inbox-${suffix}.md`);
+}
 const SCRATCHPAD_PATH = path.join(PROJECT_ROOT, "Scratchpad.md");
 const PORT = process.env.PORT || 2903;
 
@@ -179,14 +185,53 @@ function spawnClaudeTerminal(taskTitle) {
 		"utf8",
 	);
 
-	try {
-		spawn("wt.exe", ["new-tab", "--title", title, "-d", dir, "--", "bash", "--login", launchScript], {
-			detached: true, stdio: "ignore", windowsHide: false,
-		}).unref();
-	} catch {
-		spawn("cmd.exe", ["/c", "start", "bash", "--login", launchScript], {
-			detached: true, stdio: "ignore", cwd: dir,
-		}).unref();
+	const platform = process.platform;
+
+	if (platform === "win32") {
+		try {
+			spawn("wt.exe", ["new-tab", "--title", title, "-d", dir, "--", "bash", "--login", launchScript], {
+				detached: true, stdio: "ignore", windowsHide: false,
+			}).unref();
+		} catch (err) {
+			console.error(`[kanban] wt.exe başlatılamadı: ${err.message}, cmd.exe ile deneniyor`);
+			try {
+				spawn("cmd.exe", ["/c", "start", "bash", "--login", launchScript], {
+					detached: true, stdio: "ignore", cwd: dir,
+				}).unref();
+			} catch (err2) {
+				console.error(`[kanban] cmd.exe başlatılamadı: ${err2.message}`);
+			}
+		}
+	} else if (platform === "darwin") {
+		// macOS: Terminal.app üzerinden bash script'i çalıştır
+		const escapedScript = launchScript.replace(/'/g, "'\\''");
+		const escapedDir = dir.replace(/'/g, "'\\''");
+		const osascript = `tell application "Terminal" to do script "cd '${escapedDir}' && bash '${escapedScript}'"`;
+		try {
+			spawn("osascript", ["-e", osascript], { detached: true, stdio: "ignore" }).unref();
+		} catch (err) {
+			console.error(`[kanban] macOS terminal başlatılamadı: ${err.message}`);
+		}
+	} else {
+		// Linux: yaygın terminal emülatörlerini sırayla dene
+		const terminals = [
+			["gnome-terminal", ["--working-directory", dir, "--", "bash", "--login", launchScript]],
+			["x-terminal-emulator", ["-e", `bash --login ${launchScript}`]],
+			["xterm", ["-e", `bash --login ${launchScript}`]],
+		];
+		let launched = false;
+		for (const [cmd, args] of terminals) {
+			try {
+				spawn(cmd, args, { detached: true, stdio: "ignore", cwd: dir }).unref();
+				launched = true;
+				break;
+			} catch {
+				// sonraki emülatörü dene
+			}
+		}
+		if (!launched) {
+			console.error("[kanban] Desteklenen terminal bulunamadı (gnome-terminal, x-terminal-emulator, xterm)");
+		}
 	}
 }
 
@@ -350,9 +395,10 @@ app.post("/api/start-task", (req, res) => {
 		"Bu görevi şimdi üstlen. İlk somut adımı belirle ve çalışmaya başla.",
 	].filter((l) => l !== null).join("\n");
 
-	// Write inbox file (SessionStart hook reads this)
-	fs.mkdirSync(path.dirname(INBOX_PATH), { recursive: true });
-	fs.writeFileSync(INBOX_PATH, inboxContent, "utf8");
+	// Write inbox file (SessionStart hook reads this) — unique name prevents concurrent overwrites
+	const inboxPath = newInboxPath();
+	fs.mkdirSync(INBOX_DIR, { recursive: true });
+	fs.writeFileSync(inboxPath, inboxContent, "utf8");
 
 	// Launch Claude in a new Windows Terminal tab — /kanban-start command auto-executes
 	spawnClaudeTerminal(task.text);
