@@ -9,6 +9,7 @@ Tüm sistem komutları, tetikleyicileri, gerekli araçları ve çalıştırma mo
 | `/start` | İş gününün başlangıcı | Read, Write, Edit, Bash(date) | Doğrudan çalıştır | Hafızayı yükle, günlük not oluştur, görevleri gözden geçir |
 | `/sync` | Gün ortası (3-4 saat sonra) | Read, Write, Edit, Bash(date), Agent | Doğrudan çalıştır | Hafızayı tazele, not defterini işle, görevleri gözden geçir |
 | `/wrap-up` | İş gününün sonu | Read, Write, Edit, Bash(date), Agent | Doğrudan çalıştır | Günlük denetim, bilgiyi dışsallaştır, yarını hazırla |
+| `/status` | Oturum sırasında hızlı kontrol gerektiğinde | Read, Bash(git) | Doğrudan çalıştır | Aktif alanı, workspace değişikliklerini ve kritik git sinyallerini kısa göster |
 | `/standup` | Gün başlangıcı (hızlı mod) | Read, Edit, Glob, Bash(git,date) | Doğrudan çalıştır | Git + görevlerden dün/bugün/engeller otomatik oluştur |
 | `/clear` | Bağlam baskısı veya görev tamamlanması | Read, Write, Edit, Bash(date) | Doğrudan çalıştır | Durumu damıt, bağlamı temizle, otomatik devam et |
 

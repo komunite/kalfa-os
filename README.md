@@ -13,7 +13,7 @@ Proje durumu: aktif olarak geliştiriliyor
 |---------|------|----------|
 | **Skill'ler** | 994 | 16 kategoride yapılandırılmış operasyonel prosedürler |
 | **Agent'lar** | 10 | Kalıcı hafızaya sahip uzman alt-agent'lar |
-| **Komutlar** | 22 | İş akışı ritüelleri ve araçlar |
+| **Komutlar** | 23 | İş akışı ritüelleri ve araçlar |
 | **Hook'lar** | 9 | Deterministik güvenlik kontrolleri |
 | **Hafıza** | 6 katman | Oturumlar arası bağlam koruma |
 
