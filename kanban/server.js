@@ -59,7 +59,7 @@ function readBoard() {
 	// Merge meta into tasks
 	for (const tasks of Object.values(board.columns)) {
 		for (const task of tasks) {
-			const m = getMeta(meta, task.text);
+			const m = getMeta(meta, task.id, task.text);
 			task.priority = m.priority;
 			task.note = m.note;
 			task.progress = m.progress;
@@ -227,11 +227,13 @@ app.post("/api/tasks", (req, res) => {
 	if (!board.columns[columnKey]) return res.status(400).json({ error: "Geçersiz kolon" });
 
 	board.columns[columnKey].push({ id: "", text: text.trim(), checked: false, columnKey });
+	// Compute the positional ID the new task will receive after parse (0-based index)
+	const newTaskId = `${columnKey}-${board.columns[columnKey].length - 1}`;
 	writeBoard(board);
 
-	// Save meta
+	// Save meta — key by composite id::text so duplicate texts don't collide
 	const meta = readMeta(PROJECT_ROOT);
-	setMeta(meta, null, text.trim(), {
+	setMeta(meta, newTaskId, newTaskId, text.trim(), text.trim(), {
 		priority: priority ?? null,
 		note: note ?? "",
 		progress: progress ?? 0,
@@ -253,22 +255,27 @@ app.put("/api/tasks/:id", (req, res) => {
 
 	const { text, checked, columnKey, priority, note, progress, skill, testScenarios } = req.body;
 	const { task, columnKey: srcKey, index } = found;
+	const oldId = req.params.id;
 	const oldText = task.text;
 
 	if (text !== undefined) task.text = text.trim();
 	if (checked !== undefined) task.checked = Boolean(checked);
 
+	let newId;
 	if (columnKey && columnKey !== srcKey) {
 		if (!board.columns[columnKey]) return res.status(400).json({ error: "Geçersiz kolon" });
 		board.columns[srcKey].splice(index, 1);
 		board.columns[columnKey].push({ ...task, columnKey });
+		// New positional ID: appended to the end of target column
+		newId = `${columnKey}-${board.columns[columnKey].length - 1}`;
 	} else {
 		board.columns[srcKey][index] = task;
+		newId = `${srcKey}-${index}`;
 	}
 
 	writeBoard(board);
 
-	// Update meta
+	// Update meta — migrate composite key if id or text changed
 	const meta = readMeta(PROJECT_ROOT);
 	const newText = task.text;
 	const metaUpdate = {};
@@ -277,8 +284,8 @@ app.put("/api/tasks/:id", (req, res) => {
 	if (progress !== undefined) metaUpdate.progress = progress;
 	if (skill !== undefined) metaUpdate.skill = skill;
 	if (testScenarios !== undefined) metaUpdate.testScenarios = testScenarios;
-	if (Object.keys(metaUpdate).length || oldText !== newText) {
-		setMeta(meta, oldText, newText, metaUpdate);
+	if (Object.keys(metaUpdate).length || oldText !== newText || oldId !== newId) {
+		setMeta(meta, oldId, newId, oldText, newText, metaUpdate);
 		writeMeta(PROJECT_ROOT, meta);
 	}
 
@@ -298,7 +305,7 @@ app.delete("/api/tasks/:id", (req, res) => {
 	writeBoard(board);
 
 	const meta = readMeta(PROJECT_ROOT);
-	deleteMeta(meta, task.text);
+	deleteMeta(meta, task.id, task.text);
 	writeMeta(PROJECT_ROOT, meta);
 
 	const fresh = readBoard();
@@ -390,9 +397,12 @@ app.post("/api/complete-task", (req, res) => {
 
 	writeBoard(board);
 
-	// Progress'i 100 yap
+	// Progress'i 100 yap — compute new ID after the move to doneKey
+	const doneTaskId = srcKey !== doneKey
+		? `${doneKey}-${(board.columns[doneKey] || []).length - 1}`
+		: task.id;
 	const meta = readMeta(PROJECT_ROOT);
-	setMeta(meta, null, task.text, { progress: 100 });
+	setMeta(meta, task.id, doneTaskId, task.text, task.text, { progress: 100 });
 	writeMeta(PROJECT_ROOT, meta);
 
 	const fresh = readBoard();

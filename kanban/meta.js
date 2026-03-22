@@ -2,7 +2,8 @@
 
 /**
  * Kanban task metadata — priority, note, progress.
- * Stored in .claude/kanban-meta.json, keyed by task text.
+ * Stored in .claude/kanban-meta.json, keyed by composite `${id}::${text}`.
+ * This prevents collisions when two tasks share the same text.
  * TaskBoard.md remains the source of truth for task existence.
  */
 
@@ -31,24 +32,51 @@ function writeMeta(projectRoot, meta) {
 	fs.writeFileSync(p, JSON.stringify(meta, null, 2), "utf8");
 }
 
-/** Get metadata for a task text, with defaults applied. */
-function getMeta(meta, text) {
-	return { ...DEFAULTS, ...(meta[text] ?? {}) };
+/** Build the storage key for a task. */
+function makeKey(id, text) {
+	return `${id}::${text}`;
 }
 
-/** Set or update metadata for a task. Cleans up if old text differs. */
-function setMeta(meta, oldText, newText, data) {
-	if (oldText && oldText !== newText && meta[oldText]) {
-		meta[newText] = { ...meta[oldText], ...data };
-		delete meta[oldText];
+/**
+ * Get metadata for a task by composite key.
+ * Falls back to plain-text key for legacy entries (pre-composite migration).
+ */
+function getMeta(meta, id, text) {
+	const key = makeKey(id, text);
+	if (meta[key] !== undefined) return { ...DEFAULTS, ...meta[key] };
+	// Legacy fallback: entries written before composite-key support
+	if (meta[text] !== undefined) return { ...DEFAULTS, ...meta[text] };
+	return { ...DEFAULTS };
+}
+
+/**
+ * Set or update metadata for a task.
+ * Migrates from oldId::oldText → newId::newText when either changes.
+ * Also cleans up any legacy plain-text entry for the same task.
+ */
+function setMeta(meta, oldId, newId, oldText, newText, data) {
+	const oldKey = oldId ? makeKey(oldId, oldText) : null;
+	const newKey = makeKey(newId, newText);
+
+	if (oldKey && oldKey !== newKey) {
+		// Task was renamed or moved — migrate existing data to new key
+		const existing = meta[oldKey] ?? meta[oldText] ?? {};
+		meta[newKey] = { ...existing, ...data };
+		delete meta[oldKey];
+		delete meta[oldText]; // clean up any legacy plain-text entry
 	} else {
-		meta[newText] = { ...(meta[newText] ?? DEFAULTS), ...data };
+		// Same key — merge, and clean up any legacy plain-text entry
+		const existing = meta[newKey] ?? meta[newText] ?? {};
+		meta[newKey] = { ...existing, ...data };
+		if (newText !== newKey && meta[newText] !== undefined) delete meta[newText];
 	}
 	return meta;
 }
 
-function deleteMeta(meta, text) {
-	delete meta[text];
+/** Delete metadata for a task (by composite key and legacy plain-text key). */
+function deleteMeta(meta, id, text) {
+	delete meta[makeKey(id, text)];
+	delete meta[text]; // clean up any legacy plain-text entry
 	return meta;
 }
 
