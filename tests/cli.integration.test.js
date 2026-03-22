@@ -69,6 +69,7 @@ test("init copies starter files to target directory", async () => {
 	const expected = [
 		".claude",
 		"CLAUDE.md",
+		".gitignore",
 		".claude/workspace/Scratchpad.md",
 		".claude/workspace/TaskBoard.md",
 		".claude/workspace/DailyNotes",
@@ -78,4 +79,8 @@ test("init copies starter files to target directory", async () => {
 		const absolute = path.join(targetDir, item);
 		assert.equal(fs.existsSync(absolute), true, `missing ${absolute}`);
 	}
+
+	const gitignore = fs.readFileSync(path.join(targetDir, ".gitignore"), "utf8");
+	assert.match(gitignore, /^\.claude\/logs\/$/m);
+	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
 });

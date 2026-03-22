@@ -5,8 +5,9 @@ const path = require("node:path");
 const figlet = require("figlet");
 
 const TEMPLATE_ITEMS = [
-	".claude",
-	"CLAUDE.md",
+	{ source: ".claude", destination: ".claude" },
+	{ source: "CLAUDE.md", destination: "CLAUDE.md" },
+	{ source: "templates/gitignore", destination: ".gitignore" },
 ];
 
 function printBanner() {
@@ -125,8 +126,8 @@ function runInit(options) {
 	}
 
 	for (const item of TEMPLATE_ITEMS) {
-		const sourcePath = path.join(packageRoot, item);
-		const destinationPath = path.join(targetRoot, item);
+		const sourcePath = path.join(packageRoot, item.source);
+		const destinationPath = path.join(targetRoot, item.destination);
 		copyRecursive(sourcePath, destinationPath, options, results);
 	}
 
