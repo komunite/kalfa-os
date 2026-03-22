@@ -2,18 +2,25 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const figlet = require("figlet");
 
 const TEMPLATE_ITEMS = [
 	".claude",
 	"CLAUDE.md",
 ];
 
+function printBanner() {
+	const banner = figlet.textSync("KALFA", { font: "Block" });
+	console.log(`\x1b[38;2;217;119;87m${banner}\x1b[0m`);
+}
+
 function printHelp() {
-	console.log(`Kalfa OS Komut Satırı Aracı
+	printBanner();
+	console.log(`Kalfa Komut Satırı Aracı
 
 Usage:
-  kalfa-os init [--target HEDEF_DIZIN] [--force] [--dry-run]
-  kalfa-os --help
+  kalfa init [--target HEDEF_DIZIN] [--force] [--dry-run]
+  kalfa --help
 
 Seçenekler:
   --target HEDEF_DIZIN  Hedef proje dizini (varsayılan: mevcut dizin)
@@ -35,11 +42,13 @@ function parseArgs(argv) {
 	const input = argv.slice(2);
 	if (input.length === 0) return args;
 
-	args.command = input[0];
-
-	for (let i = 1; i < input.length; i += 1) {
+	for (let i = 0; i < input.length; i += 1) {
 		const token = input[i];
-		if (token === "--target") {
+		if (token === "-h" || token === "--help") {
+			args.help = true;
+		} else if (args.command === null) {
+			args.command = token;
+		} else if (token === "--target") {
 			const value = input[i + 1];
 			if (!value) {
 				throw new Error("--target için bir değer verilmedi");
@@ -50,8 +59,6 @@ function parseArgs(argv) {
 			args.force = true;
 		} else if (token === "--dry-run") {
 			args.dryRun = true;
-		} else if (token === "-h" || token === "--help") {
-			args.help = true;
 		} else {
 			throw new Error(`Bilinmeyen seçenek: ${token}`);
 		}
@@ -124,7 +131,7 @@ function runInit(options) {
 	}
 
 	const mode = options.dryRun ? "ÖNİZLEME" : "TAMAMLANDI";
-	console.log(`[${mode}] Kalfa OS şu dizine kuruldu: ${targetRoot}`);
+	console.log(`[${mode}] Kalfa şu dizine kuruldu: ${targetRoot}`);
 	console.log(`Kopyalanan: ${results.copied.length}`);
 	console.log(`Atlanan: ${results.skipped.length}`);
 	console.log(`Oluşturulan dizin: ${results.createdDirs.length}`);

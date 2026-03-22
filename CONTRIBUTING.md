@@ -1,6 +1,6 @@
 # Katkı Rehberi
 
-Kalfa OS'a katkı sunduğunuz için teşekkür ederiz.
+Kalfa'ya katkı sunduğunuz için teşekkür ederiz.
 
 ## Nasıl Katkı Sağlanır
 

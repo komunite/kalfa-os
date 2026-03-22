@@ -2,7 +2,7 @@
 
 ## Taahhüdümüz
 
-Kalfa OS topluluğunda herkes için saygılı, kapsayıcı ve güvenli bir katılım ortamı sağlamayı taahhüt ediyoruz.
+Kalfa topluluğunda herkes için saygılı, kapsayıcı ve güvenli bir katılım ortamı sağlamayı taahhüt ediyoruz.
 
 ## Beklenen Davranışlar
 

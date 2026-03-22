@@ -48,6 +48,6 @@ body:
     attributes:
       label: Kaynak
       description: Hangi proje, oturum veya deneyimden geliyor?
-      placeholder: "örn: kiliczsh/kalfa-os, oturum 2026-03-21"
+      placeholder: "örn: kiliczsh/kalfa, oturum 2026-03-21"
     validations:
       required: false

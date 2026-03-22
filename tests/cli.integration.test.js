@@ -7,7 +7,7 @@ const { execFile } = require("node:child_process");
 const { promisify } = require("node:util");
 
 const execFileAsync = promisify(execFile);
-const cliPath = path.resolve(__dirname, "..", "bin", "kalfa-os.js");
+const cliPath = path.resolve(__dirname, "..", "bin", "kalfa.js");
 
 async function runCli(args = []) {
 	return execFileAsync("node", [cliPath, ...args], {
@@ -18,18 +18,25 @@ async function runCli(args = []) {
 
 test("prints help when no command is provided", async () => {
 	const { stdout } = await runCli([]);
-	assert.match(stdout, /Kalfa OS Komut Satırı Aracı/);
-	assert.match(stdout, /kalfa-os init/);
+	assert.match(stdout, /Kalfa Komut Satırı Aracı/);
+	assert.match(stdout, /kalfa init/);
 });
 
 test("supports `help` alias", async () => {
 	const { stdout } = await runCli(["help"]);
-	assert.match(stdout, /Kalfa OS Komut Satırı Aracı/);
+	assert.match(stdout, /Kalfa Komut Satırı Aracı/);
+	assert.match(stdout, /Seçenekler:/);
+});
+
+test("supports `--help` flag", async () => {
+	const { stdout, stderr } = await runCli(["--help"]);
+	assert.equal(stderr, "");
+	assert.match(stdout, /Kalfa Komut Satırı Aracı/);
 	assert.match(stdout, /Seçenekler:/);
 });
 
 test("fails for a non-existent target directory", async () => {
-	const missingTarget = path.join(os.tmpdir(), "kalfa-os-missing-target-xyz");
+	const missingTarget = path.join(os.tmpdir(), "kalfa-missing-target-xyz");
 	if (fs.existsSync(missingTarget)) {
 		fs.rmSync(missingTarget, { recursive: true, force: true });
 	}
@@ -45,7 +52,7 @@ test("fails for a non-existent target directory", async () => {
 });
 
 test("dry-run initializes into an empty existing directory", async () => {
-	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-os-dryrun-"));
+	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-dryrun-"));
 	const { stdout } = await runCli(["init", "--target", targetDir, "--dry-run"]);
 
 	assert.match(stdout, /\[ÖNİZLEME]/);
@@ -54,7 +61,7 @@ test("dry-run initializes into an empty existing directory", async () => {
 });
 
 test("init copies starter files to target directory", async () => {
-	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-os-init-"));
+	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-init-"));
 	const { stdout } = await runCli(["init", "--target", targetDir]);
 
 	assert.match(stdout, /\[TAMAMLANDI]/);

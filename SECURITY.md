@@ -1,6 +1,6 @@
 # Güvenlik Politikası
 
-Kalfa OS için güvenlik açıklarını sorumlu şekilde bildirmenizi rica ederiz.
+Kalfa için güvenlik açıklarını sorumlu şekilde bildirmenizi rica ederiz.
 
 ## Desteklenen Sürümler
 
@@ -44,7 +44,7 @@ Duruma göre sizden ek doğrulama bilgisi veya yeniden üretim ortamı istenebil
 
 ## Güvenlik Kapsamı Notları
 
-Kalfa OS bir çalışma sistemi katmanıdır (`.claude/commands`, `.claude/hooks`, `.claude/skills`).
+Kalfa bir çalışma sistemi katmanıdır (`.claude/commands`, `.claude/hooks`, `.claude/skills`).
 Güvenlik değerlendirmelerinde özellikle şu alanlara odaklanın:
 
 * Hook güvenlik kontrolleri

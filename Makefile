@@ -34,5 +34,5 @@ clean: ## Remove generated files
 pack: ## Preview npm package contents
 	bun run pack:preview
 
-init: ## Run kalfa-os init (dry-run)
+init: ## Run kalfa init (dry-run)
 	bun run cli init --dry-run

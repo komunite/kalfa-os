@@ -1,6 +1,6 @@
-# Claude Bağlamı — Kalfa OS
+# Claude Bağlamı — Kalfa
 
-Bu proje, Claude Code için profesyonel bir işletim sistemi olan Kalfa OS'u kullanır.
+Bu proje, Claude Code için profesyonel bir işletim sistemi olan Kalfa'u kullanır.
 Herhangi bir işlem yapmadan önce daima `.claude/memory.md` dosyasını oku.
 
 ## Hızlı Başlangıç
