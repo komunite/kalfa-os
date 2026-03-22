@@ -12,7 +12,7 @@ const DEFAULT_CONFIGS = {
 			{ key: "in-progress", label: "In Progress", color: "#3b82f6" },
 			{ key: "test", label: "Test", color: "#8b5cf6" },
 			{ key: "uat", label: "UAT", color: "#f97316" },
-			{ key: "done", label: "Done", color: "#10b981" },
+			{ key: "done", label: "Done", color: "#10b981", isDone: true },
 		],
 	},
 	content: {
@@ -21,7 +21,7 @@ const DEFAULT_CONFIGS = {
 			{ key: "idea", label: "Fikir", color: "#6366f1" },
 			{ key: "writing", label: "Yazıyor", color: "#f59e0b" },
 			{ key: "editing", label: "Düzenleme", color: "#3b82f6" },
-			{ key: "published", label: "Yayında", color: "#10b981" },
+			{ key: "published", label: "Yayında", color: "#10b981", isDone: true },
 		],
 	},
 	general: {
@@ -30,7 +30,7 @@ const DEFAULT_CONFIGS = {
 			{ key: "backlog", label: "Backlog", color: "#6366f1" },
 			{ key: "todo", label: "Yapılacak", color: "#f59e0b" },
 			{ key: "in-progress", label: "Devam Ediyor", color: "#3b82f6" },
-			{ key: "done", label: "Tamamlandı", color: "#10b981" },
+			{ key: "done", label: "Tamamlandı", color: "#10b981", isDone: true },
 		],
 	},
 };

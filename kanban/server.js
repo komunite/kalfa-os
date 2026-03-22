@@ -383,9 +383,9 @@ app.post("/api/complete-task", (req, res) => {
 	}
 	if (!found) return res.status(404).json({ error: "Task bulunamadı" });
 
-	// "done" kolonunu bul (ilk done/tamamlandi key'i)
+	// "done" kolonunu bul: explicit override → isDone flag → son kolon
 	const doneKey = req.body.doneColumnKey
-		|| currentConfig.columns.find((c) => /^done|tamaml/i.test(c.key))?.key
+		|| currentConfig.columns.find((c) => c.isDone)?.key
 		|| currentConfig.columns[currentConfig.columns.length - 1].key;
 
 	const { task, columnKey: srcKey, index } = found;
