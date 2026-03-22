@@ -130,3 +130,16 @@ test("init --force preserves existing gitignore rules", async () => {
 	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
 	assert.equal((gitignore.match(/^\.claude\/logs\/$/gm) || []).length, 1);
 });
+
+test("init does not override existing unignore rules", async () => {
+	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-gitignore-unignore-"));
+	const targetGitignore = path.join(targetDir, ".gitignore");
+	fs.writeFileSync(targetGitignore, "!.claude/logs/\n");
+
+	await runCli(["init", "--target", targetDir]);
+
+	const gitignore = fs.readFileSync(targetGitignore, "utf8");
+	assert.match(gitignore, /^!\.claude\/logs\/$/m);
+	assert.doesNotMatch(gitignore, /^\.claude\/logs\/$/m);
+	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
+});

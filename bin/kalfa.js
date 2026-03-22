@@ -127,6 +127,10 @@ function readGitignoreEntries(sourcePath) {
 		.filter((line) => line.length > 0);
 }
 
+function hasGitignoreRule(existingEntries, entry) {
+	return existingEntries.has(entry) || existingEntries.has(`!${entry}`);
+}
+
 function mergeGitignore(sourcePath, destinationPath, options, results) {
 	const { dryRun } = options;
 
@@ -153,7 +157,7 @@ function mergeGitignore(sourcePath, destinationPath, options, results) {
 			.map((line) => line.trim())
 			.filter((line) => line.length > 0),
 	);
-	const missingEntries = desiredEntries.filter((entry) => !existingEntries.has(entry));
+	const missingEntries = desiredEntries.filter((entry) => !hasGitignoreRule(existingEntries, entry));
 
 	if (missingEntries.length === 0) {
 		results.skipped.push(destinationPath);
