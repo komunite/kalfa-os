@@ -28,8 +28,8 @@ jobs:
                 with:
                     context: .
                     push: true
-                    tags: ghcr.io/komunite/kalfa-os:latest
+                    tags: ghcr.io/komunite/kalfa:latest
                     labels: |
-                        org.opencontainers.image.source=https://github.com/komunite/kalfa-os
-                        org.opencontainers.image.description=Kalfa OS CLI ve proje şablon paketi
+                        org.opencontainers.image.source=https://github.com/komunite/kalfa
+                        org.opencontainers.image.description=Kalfa CLI ve proje şablon paketi
                         org.opencontainers.image.licenses=MIT
