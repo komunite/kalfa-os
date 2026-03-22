@@ -219,11 +219,11 @@ Mevcut test seti `tests/` dizinindedir ve şunları doğrular:
 2. npm tarafında Trusted Publisher tanımlayın.
    1. npm paket ayarlarında `@komunite/kalfa-os` için GitHub repo `komunite/kalfa-os` bağlayın.
    2. Workflow olarak `.github/workflows/npm-publish.yml` seçin.
-3. Mevcut repo durumunda npm publish workflow'u manuel `workflow_dispatch` ile sınırlıdır; yayın öncesinde `.github/workflows/npm-publish.yml` dosyasını gözden geçirin.
+3. Mevcut repo durumunda npm publish workflow'u manuel `workflow_dispatch` ile sınırlıdır ve job varsayılan olarak `if: false` korumasıyla devre dışıdır; yayın öncesinde `.github/workflows/npm-publish.yml` dosyasını gözden geçirip etkinleştirin.
 4. Sürümü artırın ve etiketi gönderin.
    1. `npm version patch` (veya `minor` / `major`)
    2. `git push --follow-tags`
-5. Gerekirse workflow'u GitHub arayüzünden elle çalıştırın.
+5. Gerekirse etkinleştirdikten sonra workflow'u GitHub arayüzünden elle çalıştırın.
    1. GitHub üzerinde Release oluşturmak tek başına publish başlatmaz.
 
 #### Hata ayıklama
