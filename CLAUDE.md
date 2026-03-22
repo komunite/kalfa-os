@@ -6,6 +6,7 @@ Herhangi bir işlem yapmadan önce daima `.claude/memory.md` dosyasını oku.
 ## Hızlı Başlangıç
 
 * `/start` ile güne başla
+* `/status` ile anlık git tabanlı durum özeti al
 * `/sync` ile gün ortasında hafızayı tazele
 * `/wrap-up` ile günü kapat
 * `/audit` ile son yapılan işin kalitesini doğrula

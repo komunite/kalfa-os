@@ -108,12 +108,13 @@ kalfa --help
 
 ### Gün içinde bağlamı sağlıklı tut
 
-1. Oturum ortasında `/sync` çalıştırın.
-2. Bağlam ağırlaştığında `/clear` kullanın.
+1. Hızlı durum kontrolü gerektiğinde `/status` çalıştırın.
+2. Oturum ortasında `/sync` çalıştırın.
+3. Bağlam ağırlaştığında `/clear` kullanın.
    1. Oturum özeti günlük nota yazılır.
    2. Hafıza dosyası güncellenir.
    3. Çalışma kaldığı yerden devam eder.
-3. Gün sonunda `/wrap-up` ile kapanış yapın.
+4. Gün sonunda `/wrap-up` ile kapanış yapın.
 
 ### Kalite kontrollerini işlet
 
@@ -196,7 +197,7 @@ Yerelde çalıştırma:
 
 1. Bu repo bir uygulama build çıktısı üretmez; operasyon dosyası sağlar.
    1. Hedef projenizde `claude` başlatın.
-   2. `/start`, `/sync`, `/wrap-up` akışlarını çalıştırın.
+   2. `/start`, `/status`, `/sync`, `/wrap-up` akışlarını çalıştırın.
 
 Testleri çalıştırma:
 
