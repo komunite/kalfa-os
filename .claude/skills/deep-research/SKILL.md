@@ -137,7 +137,7 @@ Kullanıcı: "[Konu]'yu araştır"
 - Kapsam çok geniş mi yoksa çok dar mı?
 - Karar: GEÇTİ / REVİZE ET (spesifik geri bildirim ile)
 |
-** Aşama 2'ye geçmeden önce kullanıcı onayı **
+**Aşama 2'ye geçmeden önce kullanıcı onayı**
 |
 === Aşama 2: İNCELEME ===
 |
